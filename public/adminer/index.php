@@ -12,6 +12,7 @@ function adminer_object() {
         // specify enabled plugins here
         new AdminerEditForeign,
         new AdminerLoginSqlite,
+        new AdminerStructComments,
     );
 
     /* It is possible to combine customization and plugins:
