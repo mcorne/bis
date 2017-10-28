@@ -9,6 +9,7 @@
 class AdminerLoginSqlite {
 
 	function login($login, $password) {
+                connection()->_link->query('PRAGMA foreign_keys = ON'); // tODO: not working although it is set successfully !!!
 		return true;
 	}
 
