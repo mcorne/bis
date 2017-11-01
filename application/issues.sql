@@ -2,9 +2,9 @@
 -- table columns are sorted in alphabetical order, the primary and foreign keys are listed first
 -- date time columns are in the UTC timezone
 
-BEGIN TRANSACTION;
-
 PRAGMA foreign_keys = OFF;
+
+BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS boolean;
 CREATE TABLE boolean (
@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS category;
 CREATE TABLE category (
     id        INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     domain_id TEXT    NOT NULL,
-    created   TEXT    DEFAULT CURRENT_TIMESTAMP,
-    enabled   INTEGER DEFAULT 1,
+    created   TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    enabled   INTEGER NOT NULL DEFAULT 1,
     name      TEXT    NOT NULL,
     updated   TEXT,
     FOREIGN KEY(domain_id) REFERENCES domain(id),
@@ -51,8 +51,8 @@ CREATE TABLE issue (
     id          INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     category_id INTEGER NOT NULL,
     user_id     TEXT    NOT NULL,
-    closed      INTEGER DEFAULT 0,
-    created     TEXT    DEFAULT CURRENT_TIMESTAMP,
+    closed      INTEGER NOT NULL DEFAULT 0,
+    created     TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description TEXT,
     subject     TEXT    NOT NULL,
     updated     TEXT,
@@ -75,19 +75,20 @@ CREATE TABLE right (
 
 DROP TABLE IF EXISTS role;
 CREATE TABLE role (
-    id TEXT      PRIMARY KEY NOT NULL,
-    domain_id    INTEGER,
-    display_form DEFAULT 0,
-    FOREIGN KEY(display_form) REFERENCES boolean(id),
-    FOREIGN KEY(domain_id)    REFERENCES domain(id)
+    id TEXT           PRIMARY KEY NOT NULL,
+    default_domain_id INTEGER,
+    display_form      NOT NULL DEFAULT 0,
+    FOREIGN KEY(default_domain_id) REFERENCES domain(id),
+    FOREIGN KEY(display_form)      REFERENCES boolean(id)
 );
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
     id       INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     role_id  TEXT    NOT NULL,
-    created  TEXT    DEFAULT CURRENT_TIMESTAMP,
-    enabled  INTEGER DEFAULT 1,
+    created  TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    db_admin INTEGER NOT NULL DEFAULT 0,
+    enabled  INTEGER NOT NULL DEFAULT 1,
     name     TEXT    NOT NULL,
     password TEXT    NOT NULL,                  -- sha1 encrypted
     updated  TEXT,
@@ -102,12 +103,17 @@ BEGIN
 END;;
 DELIMITER ;
 
+END TRANSACTION;
+
 PRAGMA foreign_keys = ON;
+
+BEGIN TRANSACTION;
 
 INSERT INTO boolean (id) VALUES (0);
 INSERT INTO boolean (id) VALUES (1);
 
 INSERT INTO domain (id) VALUES ('computer');
+INSERT INTO domain (id) VALUES ('database');
 INSERT INTO domain (id) VALUES ('stewardship');
 
 INSERT INTO right  (id) VALUES ('close');
@@ -125,6 +131,9 @@ INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'c
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'computer', 'read'  );
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'computer', 'reply' );
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'computer', 'update');
+
+INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'database', 'update');
+
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'stewardship', 'close' );
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'stewardship', 'create');
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'stewardship', 'read'  );

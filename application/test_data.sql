@@ -1,8 +1,8 @@
 BEGIN TRANSACTION;
 
-INSERT INTO role (id, domain_id, display_form) VALUES ('prof', 'computer'   , 1);
-INSERT INTO role (id, domain_id, display_form) VALUES ('attp', 'stewardship', 0);
-INSERT INTO role (id, domain_id, display_form) VALUES ('op'  , 'stewardship', 0);
+INSERT INTO role (id, default_domain_id, display_form) VALUES ('prof', 'computer'   , 1);
+INSERT INTO role (id, default_domain_id, display_form) VALUES ('attp', 'stewardship', 0);
+INSERT INTO role (id, default_domain_id, display_form) VALUES ('op'  , 'stewardship', 0);
 
 INSERT INTO user (role_id, name, password) VALUES ('prof', 'prof', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
 INSERT INTO user (role_id, name, password) VALUES ('attp', 'attp', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)

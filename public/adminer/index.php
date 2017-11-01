@@ -10,9 +10,8 @@ function adminer_object() {
 
     $plugins = array(
         // specify enabled plugins here
-        new AdminerEditForeign,
-        new AdminerLoginSqlite,
-        new AdminerStructComments,
+        new AdminerEditForeignEnhanced,
+        new AdminerLoginSqliteTable,
     );
 
     /* It is possible to combine customization and plugins:
