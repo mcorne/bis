@@ -10,7 +10,7 @@ function adminer_object() {
 
     $plugins = array(
         // specify enabled plugins here
-        new AdminerEditForeignEnhanced,
+        new AdminerEditForeign,
         new AdminerLoginSqliteTable,
     );
 
@@ -24,5 +24,5 @@ function adminer_object() {
 }
 
 // include original Adminer or Adminer Editor
-include "./adminer-4.3.1.php";
+include "./adminer.php";
 ?>
