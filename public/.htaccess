@@ -10,7 +10,7 @@ RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 
-# select the proper rule depending if the application is run as a domain subpath, eg my.domain.com/bis or not
+# select the proper rule depending if the application is run as a domain subpath, eg my.domain.com/bits or not
 # the domain subpath MUST BE the same as the one defined in config.php
 # RewriteRule ^.*$ /index.php [NC,L]
-RewriteRule ^.*$ /bis/index.php [NC,L]
+RewriteRule ^.*$ /bits/index.php [NC,L]
