@@ -4,9 +4,9 @@ INSERT INTO role (id, default_domain_id, display_form) VALUES ('prof', 'computer
 INSERT INTO role (id, default_domain_id, display_form) VALUES ('attp', 'stewardship', 0);
 INSERT INTO role (id, default_domain_id, display_form) VALUES ('op'  , 'stewardship', 0);
 
-INSERT INTO user (role_id, name, password) VALUES ('prof', 'prof', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
-INSERT INTO user (role_id, name, password) VALUES ('attp', 'attp', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
-INSERT INTO user (role_id, name, password) VALUES ('op'  , 'op'  , '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
+INSERT INTO user (role_id, name, password_sha1) VALUES ('prof', 'prof', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
+INSERT INTO user (role_id, name, password_sha1) VALUES ('attp', 'attp', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
+INSERT INTO user (role_id, name, password_sha1) VALUES ('op'  , 'op'  , '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
 
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('prof', 'computer'   , 'create');
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('prof', 'computer'   , 'read'  );

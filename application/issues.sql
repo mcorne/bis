@@ -84,20 +84,20 @@ CREATE TABLE role (
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
-    id       INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    role_id  TEXT    NOT NULL,
-    created  TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    db_admin INTEGER NOT NULL DEFAULT 0,
-    enabled  INTEGER NOT NULL DEFAULT 1,
-    name     TEXT    NOT NULL,
-    password TEXT    NOT NULL,                  -- sha1 encrypted
-    updated  TEXT,
+    id            INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    role_id       TEXT    NOT NULL,
+    created       TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    db_admin      INTEGER NOT NULL DEFAULT 0,
+    enabled       INTEGER NOT NULL DEFAULT 1,
+    name          TEXT    NOT NULL,
+    password_sha1 TEXT    NOT NULL, -- sha1 encrypted
+    updated       TEXT,
     FOREIGN KEY(enabled) REFERENCES boolean(id),
     FOREIGN KEY(role_id) REFERENCES role(id)
 );
 
 DELIMITER ;;
-CREATE TRIGGER user_update AFTER UPDATE OF role_id, enabled, name, password ON user FOR EACH ROW
+CREATE TRIGGER user_update AFTER UPDATE OF role_id, enabled, name, password_sha1 ON user FOR EACH ROW
 BEGIN
     UPDATE user SET updated= CURRENT_TIMESTAMP WHERE id = old.id;
 END;;
@@ -124,7 +124,7 @@ INSERT INTO right  (id) VALUES ('update');
 
 INSERT INTO role   (id) VALUES ('admin');
 
-INSERT INTO user   (role_id, name, password) VALUES ('admin', 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
+INSERT INTO user   (role_id, name, password_sha1) VALUES ('admin', 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b'); -- sha1(123456)
 
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'computer', 'close' );
 INSERT INTO domain_right_role (role_id, domain_id, right_id) VALUES ('admin', 'computer', 'create');

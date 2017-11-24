@@ -28,7 +28,7 @@ class AdminerLoginSqliteTable
             JOIN role ON role.id = user.role_id
             JOIN domain_right_role AS drd ON drd.role_id = role.id AND drd.domain_id = 'database' AND drd.right_id = 'update'
             WHERE user.name = $login
-            AND   user.password = $password";
+            AND   user.password_sha1 = $password";
 
         $result = (bool) connection()->result($sql);
 

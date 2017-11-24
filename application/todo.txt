@@ -1,3 +1,2 @@
 * sha1() user password on the client side so they do not pass on the clear over http
 * set default time zone for displaying purposes as config param, check time zone in SQLite
-* set adminer to hash password

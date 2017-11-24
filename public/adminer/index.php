@@ -12,7 +12,8 @@ function adminer_object() {
         // specify enabled plugins here
         new AdminerEditForeign,
         new AdminerHashColumn,
-        new AdminerLoginSqliteTable,
+        // new AdminerLoginSqlite, // uncomment to log into the database without authentication, eg to import database creation files
+        new AdminerLoginSqliteTable, // uncomment to log into the database with authentication
     );
 
     /* It is possible to combine customization and plugins:
