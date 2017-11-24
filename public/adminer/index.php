@@ -11,6 +11,7 @@ function adminer_object() {
     $plugins = array(
         // specify enabled plugins here
         new AdminerEditForeign,
+        new AdminerHashColumn,
         new AdminerLoginSqliteTable,
     );
 
