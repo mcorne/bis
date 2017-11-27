@@ -15,10 +15,13 @@ $id = $database->insert('issue', [
 ]);
  */
 
-// $id = $database->insert('role', ['id' => 'new role']);
+// echo $database->insert('role', ['id' => 'new role']);
 
 // $database->update('role', ['id' => 'new role2'], ['id' => 'new role']);
 // $database->update('role', ['default_domain_id' => null], ['id' => 'new role']);
 // $database->update('role', ['display_form' => 1], ['id' => 'new role', 'default_domain_id' => null]);
 
 // $database->delete('role', ['id' => 'new role', 'default_domain_id' => null]);
+
+// print_r($database->get_row('role', ['id' => 'admin', 'default_domain_id' => null]));
+print_r($database->get_rows('role', ['id' => 'admin', 'default_domain_id' => null]));

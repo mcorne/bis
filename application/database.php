@@ -109,6 +109,96 @@ class database extends PDO
 
     /**
      *
+     * @param string $sql
+     * @param array $bind
+     * @return array
+     */
+    public function fetch($sql, $bind = [])
+    {
+        /* @var $statement PDOStatement */
+        if (! $statement = $this->prepare($sql) or ! $statement->execute($bind)) {
+            throw new Exception('unexpected query error');
+        }
+
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $row;
+    }
+
+    /**
+     *
+     * @param string $sql
+     * @param array $bind
+     * @return array
+     */
+    public function fetch_all($sql, $bind = [])
+    {
+        /* @var $statement PDOStatement */
+        if (! $statement = $this->prepare($sql) or ! $statement->execute($bind)) {
+            throw new Exception('unexpected query error');
+        }
+
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $rows;
+    }
+
+    /**
+     *
+     * @param string $table
+     * @param array $where
+     * @param array $columns
+     * @param string $separator
+     * @return array
+     */
+    public function get_row($table, $where, $columns = '*', $separator = 'AND')
+    {
+        if (is_array($columns)) {
+            $columns = implode(', ', $columns);
+        }
+
+        $sql = "SELECT $columns FROM $table";
+
+        if ($where) {
+            list($condition, $bind) = $this->bind_where($where, $separator);
+            $sql .= " WHERE $condition";
+            $row  = $this->fetch($sql, $bind);
+        } else {
+            $row = $this->fetch($sql);
+        }
+
+        return $row;
+    }
+
+    /**
+     *
+     * @param string $table
+     * @param array $where
+     * @param array $columns
+     * @param string $separator
+     * @return array
+     */
+    public function get_rows($table, $where, $columns = '*', $separator = 'AND')
+    {
+        if (is_array($columns)) {
+            $columns = implode(', ', $columns);
+        }
+
+        $sql = "SELECT $columns FROM $table";
+
+        if ($where) {
+            list($condition, $bind) = $this->bind_where($where, $separator);
+            $sql .= " WHERE $condition";
+            $row  = $this->fetch_all($sql, $bind);
+        } else {
+            $row = $this->fetch_all($sql);
+        }
+
+        return $row;
+    }
+
+    /**
+     *
      * @param string $table
      * @param array $data
      * @return int
