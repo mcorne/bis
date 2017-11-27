@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('UTC');
+
 return array(
     'development' => array(
         'base_path'  => __DIR__ . '/../application',

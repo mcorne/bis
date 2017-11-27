@@ -17,7 +17,7 @@ class database extends PDO
     public function __construct($dsn, $username = null, $password = null, $options = [])
     {
         $options += [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
-        parent::__construct($dsn, $username, $password, $options);
+        parent::__construct("sqlite:$dsn", null, null, $options);
     }
 
     /**
@@ -103,21 +103,22 @@ class database extends PDO
     public function delete($table, $where, $separator = 'AND') {
         list($condition, $bind) = $this->bind_where($where, $separator);
 
-        $this->prepare("DELETE FROM $table WHERE $condition")->execute($bind);
+        $sql = "DELETE FROM $table WHERE $condition";
+        $this->prepare($sql)->execute($bind);
     }
 
     /**
      *
      * @param string $table
      * @param array $data
-     * @param array $where
      * @return int
      */
-    public function insert($table, $data, $where)
+    public function insert($table, $data)
     {
         list($columns, $values, $bind) = $this->bind_values($data);
 
-        $this->prepare("INSERT INTO $table ($columns) VALUES ($values)")->execute($bind);
+        $sql = "INSERT INTO $table ($columns) VALUES ($values)";
+        $this->prepare($sql)->execute($bind);
 
         $id = $this->lastInsertId();
 
@@ -174,7 +175,7 @@ class database extends PDO
      * @param array $driver_options
      * @return PDOStatement
      */
-    public function prepare(string $statement, array $driver_options = [])
+    public function prepare($statement, $driver_options = [])
     {
         $this->sql = $statement;
         return parent::prepare($statement, $driver_options);
@@ -192,6 +193,7 @@ class database extends PDO
         list($data_set, $data_bind)   = $this->bind_data_set($data);
         list($condition, $where_bind) = $this->bind_where($where, $separator);
 
-        $this->prepare("UPDATE $table SET $data_set WHERE $condition")->execute($data_bind + $where_bind);
+        $sql = "UPDATE $table SET $data_set WHERE $condition";
+        $this->prepare($sql)->execute($data_bind + $where_bind);
     }
 }
